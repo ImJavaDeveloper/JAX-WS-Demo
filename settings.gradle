@@ -1,0 +1,5 @@
+rootProject.name = 'JAX-WS-Demo'
+include 'JAX-WS'
+include 'JAX-WS-Client'
+
+
