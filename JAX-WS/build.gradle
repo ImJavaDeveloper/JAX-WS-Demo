@@ -13,6 +13,20 @@ buildscript {
 	}
 }
 
+configurations {
+    jaxws
+}
+ 
+ repositories {
+    mavenCentral()
+    maven { url 'http://download.java.net/maven/1' }
+    maven { url 'http://download.java.net/maven/2' }
+}
+
+dependencies {
+    
+    jaxws 'com.sun.xml.ws:jaxws-tools:2.1.4'
+}
 
 group = 'com.java.webservice'
 version = '0.0.1-SNAPSHOT'
@@ -27,3 +41,31 @@ dependencies {
 	//compile('javax.ejb:ejb-api:3.0')
 	//compile('javax.jms:jms-api:1.1-rev-1')
 }
+
+javaexec {
+    main = 'com.java.webservice.jaxws.service.SOAPPublisher'
+    classpath = sourceSets.main.runtimeClasspath
+//    args 'mrhaki'
+//    systemProperty 'simple.message', 'Hello '
+ }
+
+task wsimport {
+    doLast {
+        def destDir = file("${buildDir}/generated")
+        ant {
+            sourceSets.main.output.classesDir.mkdirs()  
+            destDir.mkdirs()
+            taskdef(name:'wsimport',
+                    classname:'com.sun.tools.ws.ant.WsImport',
+                    classpath:configurations.jaxws.asPath)
+            wsimport(keep:true,
+                     destdir: sourceSets.main.output.classesDir,
+                     sourcedestdir: destDir,
+                    wsdl:'http://localhost:8888/ws/person?wsdl')
+        }
+    }
+}
+defaultTasks 'publishEndPoint'
+//wsimport.dependsOn(publishEndPoint)
+compileJava.dependsOn(javaexec)
+compileJava.dependsOn(wsimport)
