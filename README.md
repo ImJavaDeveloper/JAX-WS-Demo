@@ -18,6 +18,7 @@ Here is a client program where we are invoking our JAX-WS example web service.
 JAX-WS Client Program
 If you look at the  program(SOAPPublisherClient), we are using the server code itself . However web services just expose WSDL and third party applications don not have access to these classes. So in that case, we can use wsimport utility to generate the client stubs. This utility comes with standard installation of JDK. Below image shows what all java classes we get when we run this utility.
 
+<pre>
 wsimport -s . http://localhost:8888/ws/person?wsdl
 
 
@@ -30,6 +31,7 @@ Generating code...
 
 
 Compiling code...
+
 
 Copy Below Code and paste in client code
 
@@ -50,6 +52,8 @@ C:\Users\Rahat\com\java\webservice\jaxws\service>
 03/27/2019  11:51 PM             3,383 PersonServiceImplService.java 
               12 File(s)         18,263 bytes
                2 Dir(s)  29,514,031,104 bytes free
+               
+               </pre>
 
 
 
